@@ -1,0 +1,22 @@
+name: Workflow C
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_workflow:
+        description: "Select which workflow(s) to execute: "
+        required: true
+        type: choice
+        default: 'both'
+        options:
+          - workflow-a
+          - workflow-b
+          - both
+
+jobs:
+  call-workflow-a:
+    if: ${{ github.event.inputs.target_workflow == 'workflow-a' || github.event.inputs.target_workflow == 'both' }}
+    uses: ./.github/workflows/workflow-a.yml
+  call-workflow-b:
+    if: ${{ github.event.inputs.target_workflow == 'workflow-b' || github.event.inputs.target_workflow == 'both' }}
+    uses: ./.github/workflows/workflow-b.yml
